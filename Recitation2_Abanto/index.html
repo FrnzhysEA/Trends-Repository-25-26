@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Ultimate College Life Web Page</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #faf9f7;
+    color: #1e1e1e;
+}
+
+/* Headings */
+h1,h2,h3,h4,h5,h6,p {
+    margin: 0;
+    padding: 0;
+}
+
+/* About Me Section */
+.AboutMe { 
+    background-color: #1e1e1e; 
+    color: #faf9f7; 
+    padding: 60px 10%; 
+    display: flex; 
+    gap: 50px; 
+    min-height: 100vh; 
+    position: relative; 
+    margin-bottom: 0; 
+    padding-bottom: 0; }
+
+.AboutMe h1 { font-family: 'Poppins', sans-serif; font-size: 70px; font-weight: 700; margin-bottom: 50px; }
+.AboutMe h3 { font-family: 'Poppins', sans-serif; font-size: 50px; font-weight: 600; margin: 20px 0 10px 0; }
+.AboutMe h4 { font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 500; margin-bottom: 70px; }
+.AboutMe p  { font-size: 16px; line-height: 1.6; color: #e0e0e0; }
+
+.Card { 
+    background: #1e1e1e; 
+    padding: 32px; 
+    width: 730px; 
+    height: 672px; 
+    border: 2px solid #e0e0e0; 
+    border-bottom: 2px solid #1e1e1e; 
+    position: relative; 
+    right: 30px; 
+    z-index: 2; }
+
+.ProfilePic {
+    position: absolute;
+    left: 640px;
+    width: 748px;
+    height: 672px;
+    z-index: 3;
+}
+
+.ProfilePic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Must-Have Section */
+.MustHaveSection {
+    background-color: #faf9f7;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.MustHaveSection h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    padding-left: 10%;
+    margin-top: 60px;
+}
+
+.MustHaveSection h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 20px 0 0 10%;
+}
+
+/* Backpack Card & Animation */
+.BagContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 60vh;
+}
+
+.backpack {
+    display: block;
+    cursor: pointer;
+    animation: idleShake 6s infinite;
+    transition: transform 0.25s ease-in-out;
+}
+
+.backpack.clicked { transform: scale(1.05); }
+.backpack:hover { animation: bagHover 0.45s ease-in-out; }
+.backpack.shake { animation: bagShake 0.35s ease-in-out; }
+
+@keyframes idleShake {
+    0%,85%,100% { transform: translateX(0); }
+    88% { transform: translateX(-3px) rotate(-1deg); }
+    91% { transform: translateX(3px) rotate(1deg); }
+    94% { transform: translateX(-2px) rotate(-0.5deg); }
+    97% { transform: translateX(2px) rotate(0.5deg); }
+}
+
+@keyframes bagHover {
+    0%{transform:translateX(0);}
+    20%{transform:translateX(-4px) rotate(-1deg);}
+    40%{transform:translateX(4px) rotate(1deg);}
+    60%{transform:translateX(-3px) rotate(-0.5deg);}
+    80%{transform:translateX(3px) rotate(0.5deg);}
+    100%{transform:translateX(0);}
+}
+
+@keyframes bagShake {
+    0%{transform:translateX(0);}
+    15%{transform:translateX(-6px) rotate(-2deg);}
+    30%{transform:translateX(6px) rotate(2deg);}
+    45%{transform:translateX(-5px) rotate(-1.5deg);}
+    60%{transform:translateX(5px) rotate(1.5deg);}
+    75%{transform:translateX(-3px);}
+    100%{transform:translateX(0);}
+}
+
+.EssentialCard, .GadjetCard {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+    height: 384px;
+    width: 288px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    transition: all 0.4s ease;
+}
+
+.EssentialCard { left: 69%; transform: translateX(-200%) scale(0.9); }
+.GadjetCard   { left: 12%; transform: translateX(100%) scale(0.9); }
+
+.EssentialCard h3, .GadjetCard h3 {
+    font-size: 32px;
+    text-align: center;
+    margin: 30px 0 50px;
+}
+
+.EssentialCard li { font-size:16px; padding-left:50px; list-style-position:inside; text-align:left; }
+.GadjetCard li    { font-size:16px; padding-left:67px; list-style-position:inside; text-align:left; }
+
+.EssentialCard.show { opacity:1; pointer-events:auto; transform:translateX(-180%) scale(1); animation: popOut 0.35s ease forwards; }
+.GadjetCard.show   { opacity:1; pointer-events:auto; transform:translateX(100%) scale(1); animation: popOut 0.35s ease forwards; }
+
+@keyframes popOut {
+    0% { opacity:0; transform:scale(0.9); }
+    50% { opacity:1; transform:scale(1.05); }
+    100%{ opacity:1; transform:scale(1); }
+}
+
+/* Daily Routine Section */
+.DailyRoutineandInterest {
+    background-color: #0f0f0f;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 60px 10% 0px;
+    overflow: hidden;
+}
+
+.DailyRoutineandInterest h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.DailyRoutineTitle {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 0;
+}
+
+.dailyroutine-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+    width: 100%;
+    flex-direction: row;
+}
+
+.tablet {
+    width: 350px;
+    height: 500px;
+    background: #2c2c2c;
+    border-radius: 40px;
+    padding: 25px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.tablet::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 6px;
+    background: #444;
+    border-radius: 10px;
+}
+
+.screen {
+    height: 100%;
+    background: #1e1e1e;
+    border-radius: 25px;
+    padding: 30px 20px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.screen::before { 
+    content: ""; 
+    position: absolute; 
+    left: 55px; 
+    top: 30px; 
+    bottom: 30px; 
+    width: 3px; 
+    height: 1100px; 
+    background: #555; 
+}
+
+.screen::-webkit-scrollbar { width:8px; }
+.screen::-webkit-scrollbar-track { background:transparent; }
+.screen::-webkit-scrollbar-thumb { background:#fff; border-radius:20px; border:2px solid #2c2c2c; }
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.icon {
+    width: 65px; height: 65px;
+    background: #4a4a4a;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.icon img { width: 50px; height: 50px; object-fit: contain; }
+
+.content { margin-left: 20px; color: white; }
+.title   { font-weight: bold; font-size: 17px; }
+.time    { font-size: 14px; color: #aaa; }
+
+/* Interest Section */
+.Interest {
+    flex: 1;
+    padding-top: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-top: 0;
+}
+
+.Interest h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: -95px;
+}
+
+.Interest h5 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: -30px;
+    color: #ffffff;
+}
+
+.GameCarousel {
+    margin-top: -30px;
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    width: 800px;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+    margin-bottom:25px;
+}
+
+.GameCarousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.GameCarousel::-webkit-scrollbar-track {
+    background: #2c2c2c;
+}
+
+.GameCarousel::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 10px;
+    
+}
+
+.GameCard {
+    flex: 0 0 150px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #2c2c2c;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.GameCard img {
+    width: 175%;
+    height: 150px;      
+    object-fit: cover;
+    border-radius: 50px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.GameCard h6 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+}
+
+
+.GameCard:hover {
+    transform: scale(1.05);
+}
+
+.MusicCard {
+    display: flex;
+    width: 100%;         /* or max-width: 800px; */
+    height: 185px;
+    background: #2c2c2c;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    gap: 0;
+    margin-top: -40px;
+}
+
+.MusicLeft, .MusicRight {
+    flex: 1;
+}
+
+.MusicLeft img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-left: -50px;
+}
+
+.MusicRight {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.MusicRight h5 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.MusicList {
+    list-style: decimal;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.MusicList li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.MusicList li a:hover {
+    color: #c9a0dc;
+}
+
+/* Work Experience Section */
+.WorkExperience {
+    background-color: #faf9f7;
+    padding: 60px 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.WorkExperience h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1e1e1e;
+}
+
+.WorkCards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.WorkCard {
+
+    color: #000;    
+    flex: 1 1 250px; 
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.WorkCard h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.WorkCard p {
+    font-size: 16px;
+    color: #000;
+}
+</style>
+</head>
+<body>
+
+<!-- About Me -->
+<section class="AboutMe">
+    <div class="Card">
+        <h4>My Ultimate College Life Web Page</h4>
+        <h3>Hi, I'm</h3>
+        <h1>Franzhys Edgar Abanto</h1>
+        <p>An academic scholar student who takes studies seriously with daily coffee beside me. I thrive on keeping busy while exploring new concepts and juggling schoolwork, social life, and multiple commitments.</p>
+    </div>
+    <div class="ProfilePic">
+        <img src="assets/AboutMe/FranzhysPic.png" alt="Profile Picture">
+    </div>
+</section>
+
+<!-- Must Have Section -->
+<section class="MustHaveSection">
+    <h2>Franzhys' Must Have</h2>
+    <h4>What are my go-to items I keep close for daily study & work</h4>
+    <div class="BagContainer">
+        <img src="assets/Must Have/BackpackArt.svg" alt="Backpack" class="backpack" id="bagButton">
+        <div class="EssentialCard">
+            <h3>Essentials</h3>
+            <ul>
+                <li>Notebook</li>
+                <li>ClearBook</li>
+                <li>Pens</li>
+                <li>Tumbler</li>
+                <li>Coffee</li>
+                <li>Medkit</li>
+                <li>Candy</li>
+            </ul>
+        </div>
+        <div class="GadjetCard">
+            <h3>Devices</h3>
+            <ul>
+                <li>Laptop</li>
+                <li>Phone</li>
+                <li>Earpods</li>
+                <li>Chargers</li>
+            </ul>
+        </div>
+    </div>
+
+
+</section>
+
+<!-- Daily Routine -->
+<section class="DailyRoutineandInterest">
+    <h2 class="DailyRoutineTitle">Daily Routine</h2>
+    <div class="dailyroutine-wrapper">
+        <div class="tablet">
+            <div class="screen">
+
+                <!-- Timeline Items -->
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/WakeUp_Icon.svg" alt="Wake Up"></div>
+                    <div class="content"><div class="title">Wake Up</div><div class="time">6:30 AM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/Breakfast_Icon.svg" alt="Breakfast"></div>
+                    <div class="content"><div class="title">Breakfast</div><div class="time">7:00 AM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/ToSchool_Icon.svg" alt="Walk to School"></div>
+                    <div class="content"><div class="title">Walk to School</div><div class="time">8:30 AM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/University_Icon.svg" alt="University"></div>
+                    <div class="content"><div class="title">Study/Duty</div><div class="time">9:00 AM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/Lunch_Icon.svg" alt="Lunch"></div>
+                    <div class="content"><div class="title">Lunch</div><div class="time">12:00 NN</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/Study_Icon.svg" alt="Study"></div>
+                    <div class="content"><div class="title">Study/Duty</div><div class="time">1:00 PM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/ReturnHome_Icon.svg" alt="Return Home"></div>
+                    <div class="content"><div class="title">Return Home</div><div class="time">7:30 PM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/Dinner_Icon.svg" alt="Dinner"></div>
+                    <div class="content"><div class="title">Dinner</div><div class="time">8:00 PM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/Study_Icon.svg" alt="Night Study"></div>
+                    <div class="content"><div class="title">Study</div><div class="time">8:30 PM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/MeTime_Icon.svg" alt="Me Time"></div>
+                    <div class="content"><div class="title">Me Time</div><div class="time">10:00 PM</div></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="icon"><img src="assets/Daily Routine/Icon/Sleep_Icon.svg" alt="Sleep"></div>
+                    <div class="content"><div class="title">Sleep</div><div class="time">11:00 PM</div></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Interest Section -->
+        <div class="Interest">
+            <h2>Interest</h2>
+            <h5>Games</h5>
+            <div class="GameCarousel">
+                
+                <div class="GameCard">
+                    <img src="assets/Interest/Games/Minecraft_Logo.svg">
+                    <h6>Minecraft</h6>
+                </div>
+
+                <div class="GameCard">
+                    <img src="assets/Interest/Games/CODM_Logo.svg">
+                    <h6>Call of Duty: Mobile</h6>
+                </div>
+
+                <div class="GameCard">
+                    <img src="assets/Interest/Games/Roblox_Logo.svg">
+                    <h6>Roblox</h6>
+                </div>
+
+                <div class="GameCard">
+                    <img src="assets/Interest/Games/PokemonGo_Logo.svg">
+                    <h6>Pokemon Go</h6>
+                </div>
+
+                <div class="GameCard">
+                    <img src="assets/Interest/Games/NYT_Logo.svg">
+                    <h6>New York Times Games</h6>
+                </div>
+
+                <div class="GameCard">
+                    <img src="assets/Interest/Games/ClashRoyale_Logo.svg">
+                    <h6>Clash Royale</h6>
+                </div>                
+            </div>
+            <h5 class="MusicTitleHeader">Music</h5>
+            <div class="MusicCard">
+                
+                <div class="MusicLeft">
+                    <img src="assets/Interest/Music/music.gif" alt="Music GIF">
+                </div>
+
+                <div class="MusicRight">
+                    
+                    <ol class="MusicList">
+                        <li><a href="https://open.spotify.com/track/2aL4lMGhWdPpyPL6COPou7?si=b3cd00ef220b4807" target="_blank">Soft Spot</a></li>
+                        <li><a href="https://open.spotify.com/track/4pUM81y5Rq7vAUeFhJRBXa?si=b65c146f80754a62" target="_blank">Miracle Nights</a></li>
+                        <li><a href="https://open.spotify.com/track/5sGZetzV9JUZCn8WkfgDEf?si=df0a930384b74086" target="_blank">Be With You</a></li>
+                        <li><a href="https://open.spotify.com/track/2tzAN1L07SNwnOdgOEeuQr?si=7517186fd10f4c3a" target="_blank">Pauwi Na'Ko</a></li>
+                        <li><a href="https://open.spotify.com/track/0JO9VhYHF6EI0KSw9xLI6A?si=2970d3506dfd4540" target="_blank">Tahanan</a></li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="WorkExperience">
+    <h2>Work Experience</h2>
+    <div class="WorkCards">
+        <div class="WorkCard">
+            <h3>Student Assistant</h3>
+            <p>2024 - Present</p>
+        </div>
+
+        <div class="WorkCard">
+            <h3>Summer Employment for Enrollment</h3>
+            <p>2024 - 2024</p>
+        </div>
+    </div>
+</section>
+
+<script>
+const bagBtn = document.getElementById("bagButton");
+const essentialCard = document.querySelector(".EssentialCard");
+const gadgetCard = document.querySelector(".GadjetCard");
+
+const closedSrc = "assets/Must Have/BackpackArt.svg"; 
+const openSrc = "assets/Must Have/BackpackArt-Open.svg";
+
+let isOpen = false;
+
+bagBtn.addEventListener("click", () => {
+    bagBtn.classList.add("clicked");
+    setTimeout(() => {
+        bagBtn.src = isOpen ? closedSrc : openSrc;
+        bagBtn.classList.remove("clicked");
+        essentialCard.classList.toggle("show");
+        gadgetCard.classList.toggle("show");
+        isOpen = !isOpen;
+    }, 150);
+});
+</script>
+</body>
+</html>
